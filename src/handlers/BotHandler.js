@@ -55,6 +55,11 @@ var BotHandler = module.exports = function(bot, models) {
     }
   });
 
+  bot.onText(/\/help/, function(msg){
+    var content = 'You can send me these commands:\r\n\r\n/topics - list out topics that our bot support\r\n/tellme [topic] - receive latest info about the topic\r\n/subscribe [topic] - automatically receive updated info about the topic\r\n/unsubscribe [topic] - stop receiving updated info about the topic\r\n/English - set language of info to English\r\n/繁體中文 - 設定接收的資訊為繁體中文\r\n/简体中文 - 设定接收的资讯为简体中文';
+    bot.sendMessage(msg.chat.id, content);
+  });
+
   bot.onText(/\/topics/, function(msg) {
     bot.sendMessage(msg.chat.id, topics);
   });
@@ -70,6 +75,7 @@ var BotHandler = module.exports = function(bot, models) {
         if (content) {
           return bot.sendMessage(msg.chat.id, content);
         }
+        bot.sendMessage(msg.chat.id, 'I can tell you info about:\r\n' + topics);
       });
     });
   });
