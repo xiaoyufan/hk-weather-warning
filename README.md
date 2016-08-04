@@ -1,4 +1,5 @@
 # Weather Information Telegram Bot
+This is a Telegram bot that informs users of latest weather in Hong Kong.
 
 ## Installation
 1. Change to root directory
