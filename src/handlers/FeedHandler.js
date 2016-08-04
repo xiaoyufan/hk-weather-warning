@@ -46,7 +46,7 @@ FeedHandler.prototype.read = function(callback) {
   });
 };
 
-FeedHandler.prototype.extractContent = function(topic, item) {
+FeedHandler.prototype.extractContent = function(topic, laguage, item) {
   var content;
 
   if (topic === 'current') {
@@ -55,6 +55,12 @@ FeedHandler.prototype.extractContent = function(topic, item) {
       content = content.split('<br/><br/>')[1];
     }
     content = content.replace(/<br\/>/g, '');
+
+    var contents = content.split('\r\n');
+    content = contents[1].trim().concat(' ').concat(contents[2].trim());
+    contents = contents.slice(3);
+    contents.unshift(content);
+    content = contents.join('\r\n');
   } else if (topic === 'warning') {
     content = item.title;
   }

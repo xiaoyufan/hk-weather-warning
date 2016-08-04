@@ -14,7 +14,7 @@ var startRead = function(feedhandler, topic, language, interval, model_topic, bo
             console.error(err);
           } 
           if (shouldUpdate) {
-            var content = feedhandler.extractContent(topic, item);
+            var content = feedhandler.extractContent(topic, language, item);
             model_topic.updateContent(topic, language, pubdate, content, function(err) {
               if (err) {
                 console.error(err);
