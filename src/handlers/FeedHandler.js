@@ -14,6 +14,7 @@ var FeedHandler = module.exports = function(feed) {
  */
 FeedHandler.prototype.read = function(callback) {
   var parser = new FeedMe();
+
   parser.once('item', function(item) {
     return callback(null, item);
   });
@@ -22,12 +23,12 @@ FeedHandler.prototype.read = function(callback) {
     if (parser.close) {
       parser.close();
     }
-  })
+  });
 
   var req = request(this.feed);
 
   req.on('error', function(err) {
-    return callback(err)
+    return callback(err);
   });
 
   req.on('response', function(res) {
@@ -43,4 +44,20 @@ FeedHandler.prototype.read = function(callback) {
     
     stream.pipe(parser);
   });
-}
+};
+
+FeedHandler.prototype.extractContent = function(topic, item) {
+  var content;
+
+  if (topic === 'current') {
+    content = item.description.split('<p>')[1];
+    if (content.includes('img')) {
+      content = content.split('<br/><br/>')[1];
+    }
+    content = content.replace(/<br\/>/g, '');
+  } else if (topic === 'warning') {
+    content = item.title;
+  }
+
+  return content;
+};
